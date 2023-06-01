@@ -38,8 +38,8 @@ public class InvoiceController {
 		return ResponseEntity.ok(invoiceService.saveInvoice(invoiceRequest));
 	}
 	
-	@GetMapping("/getInvoiceExcel/{id}")
-	public File getExcelInvoice(@PathVariable Long id) {
-	return invoiceService.createExcelInvoice(id);
+	@GetMapping("/getInvoiceExcel/{id}/{templateFormat}")
+	public File getExcelInvoice(@PathVariable Long id,@PathVariable String templateFormat) {
+	return invoiceService.createExcelInvoice(id,templateFormat);
 	}
 }

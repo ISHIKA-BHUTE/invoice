@@ -48,11 +48,11 @@ public class InvoiceInlineModel  {
 
     @OneToOne(cascade=CascadeType.MERGE)
     @JoinColumn(name = "fk_product_id")
-    @JsonIgnore
     private ProductModel productModel;
 
     @ManyToOne
     @JoinColumn(name = "fk_invoice_id")
+    @JsonIgnore
     private InvoiceModel invoiceModel;
 
 }

@@ -85,17 +85,27 @@ public class InvoiceServiceImpl implements InvoiceService {
 	}
 
 	@Override
-	public File createExcelInvoice(Long id) {
+	public File createExcelInvoice(Long id , String templateFormat) {
 		try {
 			InvoiceModel invoiceModel = getInvoiceById(id);
-			Resource resource = resourceLoader.getResource("classpath:Template11.xlsx");
+//			Resource resource = resourceLoader.getResource("classpath:Template10.xlsx");
+			 Resource resource;
+		        if (templateFormat.equals("01")) {
+		            resource = resourceLoader.getResource("classpath:Template01.xlsx");
+		        } else if (templateFormat.equals("02")) {
+		            resource = resourceLoader.getResource("classpath:Template02.xlsx");
+		        } else {
+		            throw new IllegalArgumentException("Invalid template format: " + templateFormat);
+		        }
 			InputStream inputStream = resource.getInputStream();
-			String companyName = invoiceModel.getVendorModel().getVendorName();
+			String invoiceNo = invoiceModel.getInvoiceNo();
+//			String companyName = invoiceModel.getVendorModel().getVendorName();
 			OutputStream os = new FileOutputStream(
-					"C:\\Users\\rinku\\Downloads\\" + companyName + "Invoice" + ".xlsx");
+					"C:\\Users\\rinku\\Downloads\\" + invoiceNo + "-Invoice" + ".xlsx");
 
 			Context context = new Context();
-			context.putVar("vendor", companyName);
+//			context.putVar("vendor", companyName);
+			context.putVar("vendor",  invoiceModel.getVendorModel().getVendorName());
 			context.putVar("customerData", invoiceModel.getCustomerModel());
 			context.putVar("vendorData", invoiceModel.getVendorModel());
 			context.putVar("invoiceData", invoiceModel);
@@ -103,7 +113,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 
 			JxlsHelper.getInstance().processTemplate(inputStream, os, context);
 
-			File file = new File("C:\\Users\\rinku\\Downloads\\" + companyName + "Invoice" + ".xlsx");
+			File file = new File("C:\\Users\\rinku\\Downloads\\" + invoiceNo + "-Invoice" + ".xlsx");
 			return file;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

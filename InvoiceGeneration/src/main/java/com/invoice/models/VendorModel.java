@@ -46,11 +46,13 @@ public class VendorModel {
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "vendorId")
+	@JsonIgnore
 	private List<CustomerModel> customerModels;
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "vendor_id")
 	@JsonManagedReference
+	@JsonIgnore
 	private List<ProductModel> productModels;
 
 }

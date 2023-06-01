@@ -14,6 +14,6 @@ public interface InvoiceService {
 	
 	public InvoiceModel getInvoiceById(Long invoiceId);
 	
-	public File createExcelInvoice(Long id);
+	public File createExcelInvoice(Long id, String templateFormat);
 	
 }
