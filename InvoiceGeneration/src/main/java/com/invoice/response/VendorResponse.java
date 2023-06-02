@@ -19,6 +19,8 @@ public class VendorResponse {
 
 	private String Pincode;
 	
+	private String vendorImage;
+	
     private List<ProductModel> productModels;
 
 }

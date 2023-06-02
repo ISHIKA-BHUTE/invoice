@@ -25,7 +25,7 @@ public class InvoiceController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<InvoiceModel> getInvoice(@PathVariable Long id){
-		return ResponseEntity.ok(invoiceService.getInvoiceById(id));
+		return ResponseEntity.ok(invoiceService.getInvoiceById(id)); 
 	}
 	
 	@GetMapping("/vendor/{id}")

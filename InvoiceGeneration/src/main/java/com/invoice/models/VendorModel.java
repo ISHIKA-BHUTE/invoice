@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -39,6 +40,13 @@ public class VendorModel {
 
 	@Column(name = "pincode")
 	private String pincode;
+	
+//	@Column(name = "vendor_image")
+//	private byte[] vendorImage;
+//	
+	 @Lob
+	 @Column(name = "vendor_image", columnDefinition="BLOB")
+	 private byte[] vendorImage;
 
 	@OneToMany(mappedBy = "vendorModel", cascade = CascadeType.ALL)
 	@JsonIgnore

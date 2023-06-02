@@ -1,5 +1,7 @@
 package com.invoice.transformers;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.invoice.Service.VendorService;
+import com.invoice.ServiceImpl.VendorServiceImpl;
 import com.invoice.models.CustomerModel;
 import com.invoice.models.InvoiceInlineModel;
 import com.invoice.models.InvoiceModel;
@@ -43,8 +47,11 @@ public class RequestConverter {
 
 	@Autowired
 	private VendorRepository vendorRepository;
+	
+	@Autowired
+	private VendorService vendorService;
 
-	public VendorModel toVendorModel(VendorRequest vendorRequest) {
+	public VendorModel toVendorModel(VendorRequest vendorRequest) throws FileNotFoundException, IOException {
 
 		if (vendorRequest == null) {
 			return null;
@@ -55,8 +62,11 @@ public class RequestConverter {
 		vendorModel.setCity(vendorRequest.getCity());
 		vendorModel.setCountry(vendorRequest.getCountry());
 		vendorModel.setPincode(vendorRequest.getPincode());
+//		vendorModel.setVendorImage(vendorRequest.getVendorImage());
 
 		vendorModel.setProductModels(vendorRequest.getProductModels());
+		byte[] vendorImage = vendorService.getImageByteArray(vendorRequest.getVendorImage());
+		vendorModel.setVendorImage(vendorImage);
 
 		return vendorModel;
 

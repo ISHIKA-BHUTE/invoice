@@ -1,7 +1,14 @@
 package com.invoice.ServiceImpl;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+
+import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,6 +20,7 @@ import com.invoice.request.VendorRequest;
 import com.invoice.response.VendorResponse;
 import com.invoice.transformers.RequestConverter;
 import com.invoice.transformers.ResponseConverter;
+
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,6 +36,23 @@ public class VendorServiceImpl implements VendorService {
 
 	@Autowired
 	private RequestConverter requestConverter;
+	
+//	@Override
+//	public String getImageByteArray(String imageUrl) throws FileNotFoundException, IOException {
+//		BufferedImage bImage = ImageIO.read(new FileInputStream(imageUrl));
+//		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//		ImageIO.write(bImage, "png", bos);
+//		return new String(bos.toByteArray());
+//	}
+	
+	@Override
+	public byte[] getImageByteArray(String imageUrl) throws FileNotFoundException, IOException {
+	    BufferedImage bImage = ImageIO.read(new FileInputStream(imageUrl));
+	    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+	    ImageIO.write(bImage, "png", bos);
+	    return bos.toByteArray();
+	}
+
 
 	@Override
 	public List<VendorResponse> getVendordetails() {
@@ -46,7 +71,7 @@ public class VendorServiceImpl implements VendorService {
 	}
 
 	@Override
-	public String save(VendorRequest vendorRequest) {
+	public String save(VendorRequest vendorRequest) throws FileNotFoundException, IOException {
 
 		VendorModel vendorEntity = requestConverter.toVendorModel(vendorRequest);
 
@@ -68,6 +93,7 @@ public class VendorServiceImpl implements VendorService {
 				savedEntity.setCity(vendorRequest.getCity());
 				savedEntity.setCountry(vendorRequest.getCountry());
 				savedEntity.setPincode(vendorRequest.getPincode());
+//				savedEntity.setVendorImage(vendorRequest.getVendorImage());
 
 				vendorRepository.save(savedEntity);
 				return "updated";

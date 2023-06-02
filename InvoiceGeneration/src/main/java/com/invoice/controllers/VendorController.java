@@ -1,5 +1,7 @@
 package com.invoice.controllers;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +39,11 @@ public class VendorController {
 	}
 	
 	@PostMapping("/save")
-	public ResponseEntity<String> saveVendorDetails(@RequestBody VendorRequest vendorRequest){
+	public ResponseEntity<String> saveVendorDetails(@RequestBody VendorRequest vendorRequest) throws FileNotFoundException, IOException{
 		
 		return ResponseEntity.ok(vendorservice.save(vendorRequest));
+		
+		
 	}
 	
 	@PutMapping("/update/{vendorId}")

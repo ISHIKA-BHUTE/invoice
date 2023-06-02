@@ -20,6 +20,8 @@ public class VendorRequest {
 
 	private String Pincode;
 	
+	private String vendorImage;
+	
     private List<ProductModel> productModels;
     
     private List<CustomerModel> customerModelList;

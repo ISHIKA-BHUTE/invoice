@@ -1,16 +1,23 @@
 package com.invoice.ServiceImpl;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import javax.imageio.ImageIO;
+
 import com.invoice.models.*;
 
+import org.apache.commons.codec.binary.Base64;
 import org.jxls.common.Context;
 import org.jxls.util.JxlsHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,7 +95,6 @@ public class InvoiceServiceImpl implements InvoiceService {
 	public File createExcelInvoice(Long id , String templateFormat) {
 		try {
 			InvoiceModel invoiceModel = getInvoiceById(id);
-//			Resource resource = resourceLoader.getResource("classpath:Template10.xlsx");
 			 Resource resource;
 		        if (templateFormat.equals("01")) {
 		            resource = resourceLoader.getResource("classpath:Template01.xlsx");
@@ -99,18 +105,17 @@ public class InvoiceServiceImpl implements InvoiceService {
 		        }
 			InputStream inputStream = resource.getInputStream();
 			String invoiceNo = invoiceModel.getInvoiceNo();
-//			String companyName = invoiceModel.getVendorModel().getVendorName();
 			OutputStream os = new FileOutputStream(
 					"C:\\Users\\rinku\\Downloads\\" + invoiceNo + "-Invoice" + ".xlsx");
 
 			Context context = new Context();
-//			context.putVar("vendor", companyName);
 			context.putVar("vendor",  invoiceModel.getVendorModel().getVendorName());
 			context.putVar("customerData", invoiceModel.getCustomerModel());
 			context.putVar("vendorData", invoiceModel.getVendorModel());
 			context.putVar("invoiceData", invoiceModel);
 			context.putVar("inlineData" , invoiceModel.getInvoiceLine());
-
+			context.putVar("image" , invoiceModel.getVendorModel().getVendorImage()); 
+					
 			JxlsHelper.getInstance().processTemplate(inputStream, os, context);
 
 			File file = new File("C:\\Users\\rinku\\Downloads\\" + invoiceNo + "-Invoice" + ".xlsx");
@@ -124,5 +129,6 @@ public class InvoiceServiceImpl implements InvoiceService {
 			return null;
 		}
 	}
+
 
 }
