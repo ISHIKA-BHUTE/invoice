@@ -130,7 +130,7 @@ const Login = () => {
                 <Button className="my-4" color="secondary" type="button">
                 <Link to="/admin/index" className="text-right">
 
-                   Login in
+                   Login
                   </Link>
                 </Button>
               </div>
