@@ -212,47 +212,6 @@ function Customer() {
       country,
     };
 
-  //   if(customerId){
-  //     CustomerService.updateCustomer(customerId , customer).then((response) => {
-  //       navigate("/admin/customer");
-        
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-
-  //   }
-  //  else{
-  //   CustomerService.createCustomer(customer)
-  //     .then((response) => {
-  //       console.log(response.data);
-  //       toggleModal();
-  //       fetchCustomers();
-  //       navigate("/admin/customer");
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  //   }
-  // if (customerId) {
-  //   CustomerService.updateCustomer(customerId, customer)
-  //     .then(() => {
-  //       toggleModal(); // Close the modal
-  //       fetchCustomers(); // Fetch the updated list of customers
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // } else {
-  //   CustomerService.createCustomer(customer)
-  //     .then(() => {
-  //       toggleModal(); // Close the modal
-  //       fetchCustomers(); // Fetch the updated list of customers
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }
 
     CustomerService.createCustomer(customer)
       .then((response) => {
@@ -287,16 +246,23 @@ function Customer() {
       console.error('Error:', error);
     }
   };
-
-
-  const title = () => {
-
-    if(customerId){
-      return <ModalHeader toggle={toggleModal}>Update Customer</ModalHeader>
-    }else{
-      return <ModalHeader toggle={toggleModal}>Add Customer</ModalHeader>
-    }
+  const deleteCustomer = (customerId) =>{
+    CustomerService.deleteCustomer(customerId).then((response) => {
+      fetchCustomers();
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   }
+
+  // const title = () => {
+
+  //   if(customerId){
+  //     return <ModalHeader toggle={toggleModal}>Update Customer</ModalHeader>
+  //   }else{
+  //     return <ModalHeader toggle={toggleModal}>Add Customer</ModalHeader>
+  //   }
+  // }
 
   return (
     <>
@@ -361,7 +327,7 @@ function Customer() {
                     <Button
                       color="dark"
                       size="sm"
-                      // onClick={() => deleteCustomer(customer)}
+                      onClick={() => deleteCustomer(customer.customerId)}
                     >
                       Delete
                     </Button>
@@ -374,10 +340,10 @@ function Customer() {
       </div>
 
       <Modal isOpen={modalOpen} toggle={toggleModal}>
-        {/* <ModalHeader toggle={toggleModal}>Add Customer</ModalHeader> */}
-        {
+        <ModalHeader toggle={toggleModal}>Add Customer</ModalHeader>
+        {/* {
           title()
-        }
+        } */}
         <ModalBody>
           <Form>
             <FormGroup>

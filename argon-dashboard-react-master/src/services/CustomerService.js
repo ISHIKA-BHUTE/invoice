@@ -19,6 +19,10 @@ class CustomerService{
     updateCustomer(customerId , customer){
         return axios.put(CUSTOMER_BASE_REST_API_URL + '/update/' + customerId , customer)
     }
+
+    deleteCustomer(customerId){
+        return axios.delete(CUSTOMER_BASE_REST_API_URL + '/delete/' + customerId);
+    }
 }
 
 export default new CustomerService();
